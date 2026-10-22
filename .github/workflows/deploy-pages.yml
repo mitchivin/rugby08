@@ -1,0 +1,63 @@
+name: Publish playable rugby08 site
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: rugby08-public-pages
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'mitchivin/rugby08'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download verified public deployment artifact
+        env:
+          OUTPUT: ${{ runner.temp }}/rugby08-site
+          SITE_ARTIFACT_BASE: ${{ secrets.SITE_ARTIFACT_BASE }}
+        run: |
+          python - <<'PY'
+          from concurrent.futures import ThreadPoolExecutor
+          import hashlib, json, os
+          from pathlib import Path
+          from urllib.request import urlopen
+          from urllib.parse import urlparse
+          base = os.environ['SITE_ARTIFACT_BASE'].rstrip('/') + '/'
+          source = urlparse(base)
+          assert source.scheme == 'https' and source.hostname, 'Deployment source is not configured'
+          private_label = source.hostname.split('.')[0].encode()
+          root = Path(os.environ['OUTPUT']); root.mkdir()
+          with urlopen(base + 'publish-manifest.json') as response: manifest = json.load(response)
+          manifest['files'] = [item for item in manifest['files'] if not item['path'].startswith('.')]
+          assert sum(item['size'] for item in manifest['files']) < 1_000_000_000
+          def fetch(item):
+              path = item['path']; target = root / path
+              assert target.resolve().is_relative_to(root.resolve()) and (not path.startswith('.') or path in ('.nojekyll', '.rugby-pages-output'))
+              assert not any(part in ('.git', '.github') for part in Path(path).parts)
+              assert not path.lower().endswith(('.exe', '.big', '.data', '.gob'))
+              with urlopen(base + path, timeout=120) as response: data = response.read()
+              assert len(data) == item['size'] and hashlib.sha256(data).hexdigest() == item['sha256'], path
+              assert private_label not in data.lower(), 'Private deployment reference in artifact'
+              target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(data)
+          with ThreadPoolExecutor(max_workers=4) as pool: list(pool.map(fetch, manifest['files']))
+          assert json.loads((root/'data/manifest.json').read_text())['own'] is False
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/rugby08-site
+          retention-days: 1
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: publish
