@@ -12,16 +12,16 @@ The game downloads about 168 MB on first start. Nothing is installed and no acco
 
 ## Play online
 
-1. Press **Play**. When the **Play online** panel appears, enter the party password, pick your region (Australia / Pacific, North America or Europe) and press **Play online**. **Play offline** skips this.
+1. Press **Play**. When the **Play online** panel appears, pick your region (Australia / Pacific, North America or Europe) and press **Play online**. **Play offline** skips this.
 2. You are now hosting a party. Press **Copy invite link** and send it to up to three friends.
-3. Each friend opens the link and enters the same password. Their game catches up to yours behind the **Joining the party** screen, then they are in.
+3. Each friend opens the link and presses **Play online**. Their game catches up to yours behind the **Joining the party** screen, then they are in.
 4. On **Team Select**, each player moves their controller icon to a side. Players on the same side play together.
 
 Every game in the party runs the same simulation in lockstep and the games compare their state as they go, so everyone sees the same match. Players connect to each other directly where they can and through a relay where they can't. If the connection drops, your game carries on offline.
 
 ## Controls
 
-A game controller is used when one is connected. Press a button on it once so the browser makes it available. It works from the start screen on: **A** presses **Play**, and on the **Play online** panel the d-pad moves between the fields, **A** presses the selected button and **B** plays offline. The password still needs a keyboard.
+A game controller is used when one is connected. Press a button on it once so the browser makes it available. It works from the start screen on: **A** presses **Play**, and on the **Play online** panel the d-pad moves between the region and the buttons, **A** presses the selected button and **B** plays offline.
 
 | Action | Controller |
 | :--- | :--- |
@@ -67,7 +67,7 @@ Hold a kick key to build power and steer with the arrows. In scrums, rucks, maul
 - **Recompiled game.** The original Windows executable is translated to C ahead of time and compiled to WebAssembly. A small runtime provides the parts of Windows, Direct3D 8, DirectInput and DirectSound the game expects.
 - **Renderer.** Direct3D calls are translated to WebGL 2. Rendering runs on its own thread through an offscreen canvas.
 - **Game data.** Game files are stored as compressed chunks on Cloudflare R2, fetched as needed and unpacked in a background worker.
-- **Online.** A Cloudflare Worker runs the parties: it checks the password, issues short-lived tickets, relays inputs and connection setup between players, and keeps the match history so late joiners can catch up. Players exchange inputs over WebRTC, with TURN for networks that block direct connections.
+- **Online.** A Cloudflare Worker runs the parties: it issues short-lived tickets, relays inputs and connection setup between players, and keeps the match history so late joiners can catch up. Players exchange inputs over WebRTC, with TURN for networks that block direct connections.
 
 ## Repository
 
