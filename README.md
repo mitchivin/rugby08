@@ -21,7 +21,22 @@ Every game in the party runs the same simulation in lockstep and the games compa
 
 ## Controls
 
-A game controller is used when one is connected. Press a button on it once so the browser makes it available.
+A game controller is used when one is connected. Press a button on it once so the browser makes it available. It works from the start screen on: **A** presses **Play**, and on the **Play online** panel the d-pad moves between the fields, **A** presses the selected button and **B** plays offline. The password still needs a keyboard.
+
+| Action | Controller |
+| :--- | :--- |
+| Move, menu navigation | Left stick or d-pad |
+| Accept, offload, dive, score try, punt | **A** |
+| Pass left / right (hold for a long pass) | **LB** / **RB** |
+| Sprint | **RT** |
+| Change player | **LT** |
+| Grubber kick | **Y** |
+| Up and under, call a mark | **X** |
+| Drop goal, jump to catch | **B** |
+| Sidestep, hand-off, shoulder charge | Right stick |
+| Pause | **Start** |
+
+If the controller is unplugged during a match the computer takes over your player until you plug it back in. One controller per browser.
 
 On the keyboard:
 
