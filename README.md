@@ -1,63 +1,59 @@
 <div align="center">
-  <img src="assets/rugby08.png" width="112" height="112" alt="rugby08 rugby ball icon">
-  <h1>rugby08</h1>
-  <p>Rugby 08, running in your browser.</p>
-  <p>
-    <a href="https://mitchivin.github.io/rugby08/"><strong>Play rugby08 →</strong></a>
-  </p>
-  <p>
-    <img src="https://img.shields.io/badge/runtime-WebAssembly-654FF0?style=flat-square" alt="WebAssembly runtime">
-    <img src="https://img.shields.io/badge/graphics-WebGL%202-155C35?style=flat-square" alt="WebGL 2 graphics">
-    <img src="https://img.shields.io/badge/status-browser%20preview-E5AC45?style=flat-square" alt="Browser preview">
-  </p>
+  <a href="https://mitchivin.github.io/rugby08/"><img src="assets/start-screen.png" width="720" alt="The rugby08 start screen"></a>
+  <p>The 2007 PC rugby game, recompiled to run in the browser, with online play for up to four people.</p>
+  <p><a href="https://mitchivin.github.io/rugby08/"><strong>mitchivin.github.io/rugby08</strong></a></p>
 </div>
-
----
-
-The PC rugby game brought to the web with **WebAssembly** and **WebGL 2**. Open the site and play with your keyboard. No installer, account or folder picker.
 
 ## Play
 
-1. Open **[mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/)** on a computer using Chrome or Edge.
-2. Let the engine load. Game data downloads automatically as it is needed.
-3. Click the game, then choose **Play Now**.
+Open [mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/) in Chrome or Edge on a desktop computer and press **Play**.
 
-A browser with WebGL 2 and WebAssembly support is required. The first load can take a little longer while files download.
+The game downloads about 168 MB on first start. Nothing is installed and no account is needed.
 
-## Keyboard controls
+## Play online
+
+1. Press **Play**. When the **Play online** panel appears, enter the party password, pick your region (Australia / Pacific, North America or Europe) and press **Play online**. **Play offline** skips this.
+2. You are now hosting a party. Press **Copy invite link** and send it to up to three friends.
+3. Each friend opens the link and enters the same password. Their game catches up to yours behind the **Joining the party** screen, then they are in.
+4. On **Team Select**, each player moves their controller icon to a side. Players on the same side play together.
+
+Every game in the party runs the same simulation in lockstep and the games compare their state as they go, so everyone sees the same match. Players connect to each other directly where they can and through a relay where they can't. If the connection drops, your game carries on offline.
+
+## Controls
+
+A game controller is used when one is connected. Press a button on it once so the browser makes it available.
+
+On the keyboard:
 
 | Action | Key |
 | :--- | :--- |
-| Move / navigate | Arrow keys |
-| Select / context action | **S** |
-| Pass left / right | **A** / **D** |
+| Move, menu navigation | Arrow keys |
+| Accept, offload, dive, score try, punt | **S** or **Enter** |
+| Pass left / right (hold for a long pass) | **A** / **D** |
 | Sprint | **Space** |
 | Change player | **Left Shift** |
-| Punt / grubber / high kick / drop goal | **S** / **W** / **Q** / **E** |
-| Back / pause | **Esc** |
+| Grubber kick | **W** |
+| Up and under, call a mark | **Q** |
+| Drop goal, jump to catch | **E** |
+| Sidestep, hand-off, shoulder charge | Numpad **4 / 6 / 8 / 2** |
+| Pause | **Esc** |
+| Start | **Left Ctrl** |
 
-Actions depend on the current play. On **Team Select**, use Left or Right to move the keyboard icon to a side.
+Hold a kick key to build power and steer with the arrows. In scrums, rucks, mauls and line-outs the same keys take on the set-piece actions shown on screen.
 
-## Current status
+## Requirements
 
-| Feature | Status |
-| :--- | :--- |
-| Browser play | Live |
-| Graphics | WebGL 2 |
-| Keyboard input | Available |
-| Online rooms | In progress |
+- A current version of Chrome or Edge. Other browsers are not tested.
+- WebGL 2 and WebAssembly support.
+- A keyboard or a game controller.
 
-Current milestone: **`v0.1.0-preview`**. Online parties are not enabled on the live site yet.
+## How it works
 
-<details>
-<summary><strong>About this repository</strong></summary>
+- **Recompiled game.** The original Windows executable is translated to C ahead of time and compiled to WebAssembly. A small runtime provides the parts of Windows, Direct3D 8, DirectInput and DirectSound the game expects.
+- **Renderer.** Direct3D calls are translated to WebGL 2. Rendering runs on its own thread through an offscreen canvas.
+- **Game data.** Game files are stored as compressed chunks on Cloudflare R2, fetched as needed and unpacked in a background worker.
+- **Online.** A Cloudflare Worker runs the parties: it checks the password, issues short-lived tickets, relays inputs and connection setup between players, and keeps the match history so late joiners can catch up. Players exchange inputs over WebRTC, with TURN for networks that block direct connections.
 
-This is the public home for project information, artwork and Pages publishing configuration. Product source is maintained privately. Source files, WebAssembly binaries and game data are not committed to this repository.
+## Repository
 
-The game runs on your device. The site delivers the engine, and game assets download from Cloudflare storage as needed.
-
-</details>
-
----
-
-Rugby 08 and EA Sports are trademarks of Electronic Arts. This browser port is an independent project.
+This repository holds the project page, artwork and the GitHub Pages deployment. The source and build pipeline are kept privately.
