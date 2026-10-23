@@ -13,13 +13,13 @@
 - **60 fps.** Frames are paced with `requestAnimationFrame`, and rendering runs on its own thread.
 - **Controller and keyboard.** Xbox-style controllers work from the start screen, and every action has a keyboard key.
 - **Installable app.** Chrome and Edge can install it to the desktop and launch it full screen.
-- **Nothing to install or sign up for.** About 168 MB downloads on first start.
+- **Nothing to install or sign up for.** About 1 GB downloads on first start, and later starts are much faster.
 
 ## Play
 
 Open [mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/) in Chrome or Edge on a desktop computer and press **Play**.
 
-The game downloads about 168 MB on first start. Nothing is installed and no account is needed.
+The game downloads about 1 GB on first start, then the rest while you play. Later starts are much faster. Nothing is installed and no account is needed.
 
 ## Play online
 
