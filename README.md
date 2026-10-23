@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://mitchivin.github.io/rugby08/"><img src="assets/start-screen.png" width="720" alt="The rugby08 start screen"></a>
+  <a href="https://mitchivin.github.io/rugby08/"><img src="assets/main-menu.png" width="720" alt="The rugby08 main menu in the browser"></a>
   <p>The 2007 PC rugby game, recompiled to run in the browser, with online play for up to four people.</p>
   <p><a href="https://mitchivin.github.io/rugby08/"><strong>mitchivin.github.io/rugby08</strong></a></p>
 </div>
