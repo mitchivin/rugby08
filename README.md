@@ -1,9 +1,10 @@
-<div align="center">
-  <h1>Rugby 08 in the browser</h1>
-  <a href="https://mitchivin.github.io/rugby08/"><img src="assets/main-menu.png" width="720" alt="Rugby 08 main menu running in Chrome"></a>
-  <p>Play Rugby 08, the 2007 PC rugby game, in your browser. The original Windows game is recompiled to WebAssembly, with online play for up to four people.</p>
-  <p><a href="https://mitchivin.github.io/rugby08/"><strong>Play now at mitchivin.github.io/rugby08</strong></a></p>
-</div>
+# Rugby 08 in the browser
+
+Play Rugby 08, the 2007 PC rugby game, in your browser. The original Windows game is recompiled to WebAssembly, with online play for up to four people.
+
+**[Play now at mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/)**
+
+![Rugby 08 main menu running in Chrome](assets/main-menu.png)
 
 ## Features
 
@@ -14,6 +15,8 @@
 - **Controller and keyboard.** Xbox-style controllers work from the start screen, and every action has a keyboard key.
 - **Installable app.** Chrome and Edge can install it to the desktop and launch it full screen.
 - **Nothing to install or sign up for.** About 1 GB downloads on first start, and later starts are much faster.
+
+![Rugby 08 match, Scotland against New Zealand, running in Chrome](assets/match.png)
 
 ## Play
 
