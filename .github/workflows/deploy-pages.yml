@@ -1,0 +1,73 @@
+name: Deploy rugby08
+
+# The site is copied from the private mitchivindesign/rugby08 source on each run.
+# Nothing built is committed here. The private repo starts a run by moving the deploy tag.
+on:
+  push:
+    tags: [deploy]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.repository == 'mitchivin/rugby08'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          repository: mitchivindesign/rugby08
+          ssh-key: ${{ secrets.SOURCE_SSH_KEY }}
+          persist-credentials: false
+          sparse-checkout: |
+            site
+            tools/web
+          path: source
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      # This log is public, so the checks print nothing about the source.
+      - name: Check site
+        env:
+          ASSET_BASE_URL: ${{ vars.ASSET_BASE_URL }}
+          ROOMS_WORKER_URL: ${{ vars.ROOMS_WORKER_URL }}
+          SITE: ${{ runner.temp }}/rugby08-site
+        run: |
+          cp -R source/site "$SITE"
+          python source/tools/web/verify_live.py "$SITE" --asset-base "$ASSET_BASE_URL" --worker "$ROOMS_WORKER_URL" > /dev/null 2>&1 || { echo "Site check failed."; exit 1; }
+          python - > /dev/null 2>&1 <<'PY' || { echo "Site check failed."; exit 1; }
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['SITE'])
+          files = [path for path in root.rglob('*') if path.is_file()]
+          assert sum(path.stat().st_size for path in files) < 1_000_000_000
+          for path in files:
+              parts = path.relative_to(root).parts
+              assert not any(part in ('.git', '.github') for part in parts)
+              assert not path.name.lower().endswith(('.exe', '.big', '.data', '.gob'))
+              assert b'mitchivindesign' not in path.read_bytes().lower()
+          assert json.loads((root / 'data/manifest.json').read_text())['own'] is False
+          PY
+          echo "Site checked."
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/rugby08-site
+          retention-days: 1
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
