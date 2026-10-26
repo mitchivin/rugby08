@@ -10,7 +10,7 @@ Play Rugby 08, the 2007 PC rugby game, in your browser. The original Windows gam
 
 - **The full game in a browser tab.** Menus, Play Now matches, My Rugby, intro videos, crowd and commentary audio.
 - **No emulator.** The game's own code runs as WebAssembly. There's no Wine, DOSBox or virtual machine.
-- **Online multiplayer.** Up to four players in a party, joined by an invite link, on the same team or against each other.
+- **Online multiplayer.** Up to four players in a party, joined by an invite link or a short code, on the same team or against each other.
 - **60 fps.** Frames are paced with `requestAnimationFrame`, and rendering runs on its own thread.
 - **Controller and keyboard.** Xbox-style controllers work from the start screen, and every action has a keyboard key.
 - **Installable app.** Chrome and Edge can install it to the desktop and launch it full screen.
@@ -20,7 +20,7 @@ Play Rugby 08, the 2007 PC rugby game, in your browser. The original Windows gam
 
 ## Controls
 
-A game controller is used when one is connected. Press a button on it once so the browser makes it available. It works from the start screen on: **A** presses **Play**, and on the **Play online** panel the d-pad moves between the region and the buttons, **A** presses the selected button and **B** plays offline.
+A game controller is used when one is connected. Press a button on it once so the browser makes it available. It works from the home screen on: the d-pad moves between the tiles, **A** selects, **X** changes the region and **B** plays offline. In the party lobby **A** starts the match (the host only), **X** copies the invite link and **B** goes back to the home screen.
 
 | Action | Controller |
 | :--- | :--- |
@@ -59,18 +59,24 @@ Hold a kick key to build power and steer with the arrows. In scrums, rucks, maul
 
 ### Play
 
-Open [mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/) in Chrome or Edge on a desktop computer and press **Play**.
+Open [mitchivin.github.io/rugby08](https://mitchivin.github.io/rugby08/) in Chrome or Edge on a desktop computer. The home screen has two tiles: **Play online** and **Play offline**. Press **Play offline** to start the game on this computer. Turn on **Lite mode** there if the game runs slowly.
+
+![The home screen, with Play online and Play offline](assets/home.png)
 
 The game downloads about 1 GB on first start, then the rest while you play. Later starts are much faster. Nothing is installed and no account is needed.
 
 ### Play online
 
-1. Press **Play**. When the **Play online** panel appears, pick your region (Australia / Pacific, North America or Europe) and press **Play online**. **Play offline** skips this.
-2. You are now hosting a party. Press **Copy invite link** and send it to up to three friends.
-3. Each friend opens the link and presses **Play online**. Their game catches up to yours behind the **Joining the party** screen, then they are in.
-4. On **Team Select**, each player moves their controller icon to a side. Players on the same side play together.
+1. On the home screen, check the region chip. It is picked from your location, and you can change it (Australia / Pacific, North America or Europe) with **X** or a click. Press **Play online**.
+2. You are now hosting a party, with a six-character code. Press **Copy invite link** and send it to up to three friends.
+3. Each friend opens the link and lands in the same lobby. They can also open the site, press **Play online** and type your code in the **Join** box. Every player's game downloads in the lobby, and the host's **Start match** opens when every game is ready.
+4. The host presses **Start match**. Every game starts together, on **Team Select**. Each player moves their controller icon to a side, and players on the same side play together.
 
-Every game in the party runs the same simulation in lockstep and the games compare their state as they go, so everyone sees the same match. Players connect to each other directly where they can and through a relay where they can't. If the connection drops, your game carries on offline.
+![The party lobby, with the code, the players and Start match](assets/lobby.png)
+
+Every game in the party runs the same simulation in lockstep and the games compare their state as they go, so everyone sees the same match. Players connect to each other directly where they can and through a relay where they can't.
+
+If someone's connection drops, the others wait a few seconds and then the computer plays that player while their page reconnects. They get their own player back when they return, even after a refresh. After three drops in ten minutes, or once the party has ended, they play on alone. A friend who opens the link after the match has started catches up to it.
 
 ### Requirements
 
